@@ -1,37 +1,64 @@
-console.log('In service worker');
+/**
+ * Welcome to your Workbox-powered service worker!
+ *
+ * You'll need to register this file in your web app and you should
+ * disable HTTP caching for this file too.
+ * See https://goo.gl/nhQhGp
+ *
+ * The rest of the code is auto-generated. Please don't update this file
+ * directly; instead, make changes to your Workbox build configuration
+ * and re-run your build process.
+ * See https://goo.gl/2aRDsh
+ */
 
-self.addEventListener('install', function(event) {
-  event.waitUntil(
-      caches.open('v1').then(cache => {
-        cache.addAll([
-          '/',
-          'index.html',
-          '/js/app.js',
-          '/css/app.css',
-          '/components/todo-add/todo-add.css',
-          '/components/todo-add/todo-add.js',
-          '/components/todo-element/todo-element.css',
-          '/components/todo-element/todo-element.js'
-        ]);
-      }),
-  );
-});
+importScripts("workbox-v4.3.1/workbox-sw.js");
+workbox.setConfig({modulePathPrefix: "workbox-v4.3.1"});
 
-self.addEventListener('fetch', function(event) {
-  if (event.request.method === 'GET') {
-    event.respondWith(
-        caches.match(event.request).then(function(resp){
-          return resp || fetch(event.request).then(function(response){
-            let responseClone = response.clone();
-            caches.open('v1').then(function(cache){
-              cache.put(event.request, responseClone);
-            });
-
-            return response;
-          }).then(function(){
-            return self.skipWaiting();
-          })
-        })
-    );
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
   }
 });
+
+/**
+ * The workboxSW.precacheAndRoute() method efficiently caches and responds to
+ * requests for URLs in the manifest.
+ * See https://goo.gl/S9QRab
+ */
+self.__precacheManifest = [
+  {
+    "url": "components/todo-add/todo-add.css",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "components/todo-add/todo-add.js",
+    "revision": "c77fe7900e48003cb48a3050ebcf4a52"
+  },
+  {
+    "url": "components/todo-element/todo-element.css",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "components/todo-element/todo-element.js",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "css/app.css",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  {
+    "url": "index.html",
+    "revision": "054a9d886314c08d733a891083950521"
+  },
+  {
+    "url": "js/app.js",
+    "revision": "3e17d891578e26b2b396b12f7a43fb00"
+  },
+  {
+    "url": "README.md",
+    "revision": "d41d8cd98f00b204e9800998ecf8427e"
+  }
+].concat(self.__precacheManifest || []);
+workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
+
+workbox.routing.registerRoute(/\.(?:png|gif|jpg|jpeg|svg)$/, new workbox.strategies.CacheFirst({ "cacheName":"image-cache", plugins: [] }), 'GET');

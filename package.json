@@ -1,0 +1,28 @@
+{
+  "name": "todolist-pwa",
+  "version": "1.0.0",
+  "description": "A todolist as a progressive web application",
+  "main": "service-worker.js",
+  "scripts": {
+    "generate": "npx workbox generateSW",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WaximeA/todolist-pwa"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WaximeA/todolist-pwa/issues"
+  },
+  "homepage": "https://github.com/WaximeA/todolist-pwa#readme",
+  "devDependencies": {
+    "polymer-cli": "^1.9.8",
+    "workbox-cli": "^4.2.0"
+  },
+  "dependencies": {
+    "idb": "^4.0.3",
+    "lit-element": "^2.1.0"
+  }
+}
