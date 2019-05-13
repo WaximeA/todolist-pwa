@@ -7,7 +7,11 @@ self.addEventListener('install', function(event) {
           '/',
           'index.html',
           '/js/app.js',
-          '/css/app.css'
+          '/css/app.css',
+          '/components/todo-add/todo-add.css',
+          '/components/todo-add/todo-add.js',
+          '/components/todo-element/todo-element.css',
+          '/components/todo-element/todo-element.js'
         ]);
       }),
   );
