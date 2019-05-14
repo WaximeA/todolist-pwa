@@ -2,7 +2,8 @@
   "todoelements": [
     {
       "id": "defaultid0",
-      "label": "Buy food"
+      "label": "Buy food",
+      "done" : false
     }
   ]
 }
