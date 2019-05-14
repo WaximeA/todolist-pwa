@@ -16,12 +16,25 @@ export default class TodoAdd extends LitElement {
     }
   }
 
+  firstUpdated() {
+    this.shadowRoot.querySelector('#add-todo-btn')
+    .addEventListener('click', () => {
+      let newTodoInput = this.shadowRoot.querySelector('#new-todo');
+      let inputValue = newTodoInput.value;
+      if (inputValue !== '') {
+        this.addTodo(inputValue);
+      } else {
+        // Push notification ?
+        console.log('Please fill the todo input')
+      }
+    });
+  }
+
   static get styles() {
     return css`
       .add-new {
         left: 0;
         right: 0;
-        position: absolute;
         text-align: center;
         padding: 20px;
       }
@@ -47,7 +60,7 @@ export default class TodoAdd extends LitElement {
         box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
         border-radius: 2px;
         padding: 12px 36px;
-        margin: 10px 0 30px 0;
+        margin: 10px 0 10px 0;
       }
     `;
   }
@@ -58,6 +71,14 @@ export default class TodoAdd extends LitElement {
     this.buttonValue = buttonValue;
   }
 
+  addTodo(inputValue) {
+    const event = new CustomEvent('add-todo', {
+      detail: inputValue
+    });
+
+    document.dispatchEvent(event);
+  }
+
   render() {
     return html`
         <div class="add-new">
@@ -65,8 +86,7 @@ export default class TodoAdd extends LitElement {
             <h2>${this.label}</h2>
             <input type="text" placeholder="${this.placeholder}" id="new-todo" name="new-todo">
            </label>
-           
-           <button>${this.buttonValue}</button>
+           <button id="add-todo-btn">${this.buttonValue}</button>
         </div>   
     `
   }

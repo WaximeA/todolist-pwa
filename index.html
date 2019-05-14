@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="A beautiful todolist develop as a PWA" />
   <title>Todolist PWA</title>
-  <!-- <link rel="stylesheet" href="./styles/main.css"> -->
+   <link rel="stylesheet" href="./css/app.css">
   <style>
   * {
     box-sizing: border-box;
@@ -91,7 +92,7 @@
     }
   }
   </style>
-  <link rel="preload" as="style" href="/css/app.css">
+  <!--<link rel="preload" as="style" href="/css/app.css">-->
   <script>
     // if ('serviceWorker' in navigator) {
     //   window.addEventListener('load', function(){
@@ -113,10 +114,12 @@
   </header>
   <main>
     <div class="skeleton" active><div class="hero"></div><div class="title"></div><div class="text"></div></div>
-    <section page="list">
+    <section page="todo-add">
       <todo-add label="What do you want to do?" placeholder="Buy food." buttonValue="Add"></todo-add>
     </section>
-    <section page="view"></section>
+    <section page="todo-list">
+      <div class="container" id="todo-list"></div>
+    </section>
   </main>
 </section>
 <script type="module" src="/js/app.js" async></script>
