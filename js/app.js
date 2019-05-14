@@ -31,24 +31,39 @@ import { openDB } from '/node_modules/idb/build/esm/index.js';
     if (navigator.onLine) {
       await database.put('todoelements', json, 'todoelements');
     }
-    // Get articles
+
+    // Get todoelements
     const todoElements = await database.get('todoelements', 'todoelements');
-    console.log(todoElements);
+    let todolistDiv = app.querySelector('#todo-list');
+
+    // Display existing todoelements
+    todoElements.map(item => {
+      const test = new TodoElement();
+
+      test.initTodoElement(
+          item.label,
+          item.id,
+      );
+      todolistDiv.appendChild(test);
+
+      return test;
+    });
 
     document.addEventListener('add-todo', async ({detail}) => {
-      const todos = await database.get('todoelements', 'todoelements');
       const todo = {};
       let randomId = uuidv4();
       let formatedLabel = detail.toLowerCase().replace(/\s/g, '');
-      let todolistDiv = app.querySelector('#todo-list');
       const todoElement = new TodoElement();
 
       todoElement.initTodoElement(detail, formatedLabel);
       todolistDiv.append(todoElement);
       todo.id = randomId;
-      todo.value = detail;
-      todos.push(todo);
-      await database.put('todoelements', todos, 'todoelements');
+      todo.label = detail;
+      todoElements.push(todo);
+      // Add elements to idb
+      await database.put('todoelements', todoElements, 'todoelements');
+      // Add elements to json-server
+      addElementJsonServer(todo)
     });
 
 
@@ -60,6 +75,19 @@ import { openDB } from '/node_modules/idb/build/esm/index.js';
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
+    });
+  }
+
+  function addElementJsonServer(todoElement) {
+    fetch(fetchUrl, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(todoElement),
+    }).catch(err => {
+      console.log(err);
     });
   }
 
