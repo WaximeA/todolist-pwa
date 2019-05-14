@@ -3,12 +3,14 @@ import { LitElement, html, css } from 'lit-element';
 export default class TodoAdd extends LitElement {
   constructor() {
     super();
+    this.label = '';
     this.placeholder = '';
     this.buttonValue = '';
   }
 
   static get properties() {
     return {
+      label: { type: String },
       placeholder: { type: String },
       buttonValue: { type: String }
     }
@@ -17,35 +19,41 @@ export default class TodoAdd extends LitElement {
   static get styles() {
     return css`
       .add-new {
-            left: 0;
-            right: 0;
-            position: absolute;
-            text-align: center;
-          }
-          .add-new input {
-            width: 70%;
-            background: #fff;
-            color: #a3a3a3;
-            font: inherit;
-            box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
-            border: 0;
-            outline: 0;
-            padding: 12px 36px;
-            margin: 30px 0 10px 0;
-          }
-          .add-new button {
-            width: 30%;
-            background: #3BA1AE;
-            color: #fff;
-            box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
-            border-radius: 2px;
-            padding: 12px 36px;
-            margin: 10px 0 30px 0;
-          }
+        left: 0;
+        right: 0;
+        position: absolute;
+        text-align: center;
+        padding: 20px;
+      }
+      .add-new label {
+        font-size: 12px;
+        color: #3BA1AE;
+      }
+      .add-new input {
+        width: 70%;
+        background: #fff;
+        color: #3BA1AE;
+        font: inherit;
+        box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.1);
+        border: 0;
+        outline: 0;
+        padding: 12px 36px;
+        margin: 10px 0 10px 0;
+      }
+      .add-new button {
+        width: 30%;
+        background: #3BA1AE;
+        color: #fff;
+        box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.1);
+        border-radius: 2px;
+        padding: 12px 36px;
+        margin: 10px 0 30px 0;
+      }
     `;
   }
 
-  initTodoAdd(placeholder, buttonValue) {
+  initTodoAdd(label, placeholder, buttonValue) {
+    this.label = label;
     this.placeholder = placeholder;
     this.buttonValue = buttonValue;
   }
@@ -53,7 +61,11 @@ export default class TodoAdd extends LitElement {
   render() {
     return html`
         <div class="add-new">
-           <input type="text" placeholder="${this.placeholder}">
+            <label for="new-todo">
+            <h2>${this.label}</h2>
+            <input type="text" placeholder="${this.placeholder}" id="new-todo" name="new-todo">
+           </label>
+           
            <button>${this.buttonValue}</button>
         </div>   
     `
