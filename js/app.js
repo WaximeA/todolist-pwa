@@ -38,15 +38,15 @@ import { openDB } from '/node_modules/idb/build/esm/index.js';
 
     // Display existing todoelements
     todoElements.map(item => {
-      const test = new TodoElement();
-
-      test.initTodoElement(
+      const todoElement = new TodoElement();
+      todoElement.initTodoElement(
           item.label,
           item.id,
+          item.done,
       );
-      todolistDiv.appendChild(test);
+      todolistDiv.appendChild(todoElement);
 
-      return test;
+      return todoElement;
     });
 
     document.addEventListener('add-todo', async ({detail}) => {
@@ -55,10 +55,11 @@ import { openDB } from '/node_modules/idb/build/esm/index.js';
       let formatedLabel = detail.toLowerCase().replace(/\s/g, '');
       const todoElement = new TodoElement();
 
-      todoElement.initTodoElement(detail, formatedLabel);
+      todoElement.initTodoElement(detail, formatedLabel, false);
       todolistDiv.append(todoElement);
       todo.id = randomId;
       todo.label = detail;
+      todo.done = false;
       todoElements.push(todo);
       // Add elements to idb
       await database.put('todoelements', todoElements, 'todoelements');
@@ -66,14 +67,30 @@ import { openDB } from '/node_modules/idb/build/esm/index.js';
       addElementJsonServer(todo)
     });
 
+    document.addEventListener('update-done', async ({detail}) => {
+      let todoElements = await database.get('todoelements', 'todoelements');
+      todoElements[detail.id] = detail;
+      await database.put('todo', todoElements, 'todo').then(async () => {
+        await fetch(fetchUrl + detail.id, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(detail),
+        }).catch(err => {
+          console.log(err);
+        });
+      });
+    });
 
   } catch(error){
     console.error(error);
   }
 
   function uuidv4() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return 'axxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
     });
   }

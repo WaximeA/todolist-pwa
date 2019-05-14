@@ -5,12 +5,14 @@ export default class TodoElement extends LitElement {
     super();
     this.label = '';
     this.id = '';
+    this.done = '';
   }
 
   static get properties() {
     return {
       label: { type: String },
-      id: { type: String }
+      id: { type: String },
+      done: { type: Boolean }
     }
   }
 
@@ -21,10 +23,26 @@ export default class TodoElement extends LitElement {
       let labelClassList = label.classList;
       if (labelClassList.contains('strikethrough')) {
         labelClassList.remove('strikethrough');
+        this.done = false;
+        this.updateDone()
       } else {
         labelClassList.add('strikethrough');
+        this.done = true;
+        this.updateDone()
       }
     });
+  }
+
+  updateDone() {
+    const event = new CustomEvent('update-done', {
+      detail: this
+    });
+
+    document.dispatchEvent(event);
+  }
+
+  test() {
+
   }
 
   static get styles() {
@@ -107,9 +125,10 @@ export default class TodoElement extends LitElement {
     `;
   }
 
-  initTodoElement(label, id) {
+  initTodoElement(label, id, done) {
     this.label = label;
     this.id = id;
+    this.done = done;
   }
 
   render() {
