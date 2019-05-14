@@ -17,15 +17,25 @@ export default class TodoAdd extends LitElement {
   }
 
   firstUpdated() {
-    this.shadowRoot.querySelector('#add-todo-btn')
-    .addEventListener('click', () => {
-      let newTodoInput = this.shadowRoot.querySelector('#new-todo');
+    let button = this.shadowRoot.querySelector('#add-todo-btn');
+    let newTodoInput = this.shadowRoot.querySelector('#new-todo');
+
+
+    button.addEventListener('click', () => {
       let inputValue = newTodoInput.value;
       if (inputValue !== '') {
         this.addTodo(inputValue);
+        newTodoInput.value = '';
       } else {
         // Push notification ?
         console.log('Please fill the todo input')
+      }
+    });
+
+    newTodoInput.addEventListener('keydown', event => {
+      if (event.which === 13 && event.target.value !== '') {
+        this.addTodo(event.target.value);
+        event.target.value = '';
       }
     });
   }
