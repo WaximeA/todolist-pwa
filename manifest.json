@@ -1,0 +1,22 @@
+{
+  "name": "Todolist PWA",
+  "short_name": "Todolist PWA",
+  "description": "Add what you want to do!",
+  "icons": [
+    {
+      "src": "images/manifest/pwa-icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/manifest/pwa-icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "index.html",
+  "display": "standalone",
+  "theme_color": "#313131",
+  "background_color": "#ffffff",
+  "gcm_sender_id": "103953800507"
+}
