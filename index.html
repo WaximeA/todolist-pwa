@@ -94,15 +94,15 @@
   </style>
   <!--<link rel="preload" as="style" href="/css/app.css">-->
   <script>
-    // if ('serviceWorker' in navigator) {
-    //   window.addEventListener('load', function(){
-    //     navigator.serviceWorker.register('/service-worker.js', {
-    //       scope: '/'
-    //     });
-    //   });
-    // } else {
-    //   console.log('Use another cache system')
-    // }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function(){
+        navigator.serviceWorker.register('/service-worker.js', {
+          scope: '/'
+        });
+      });
+    } else {
+      console.log('Use another cache system')
+    }
   </script>
 </head>
 <body>

@@ -27,19 +27,19 @@ self.addEventListener('message', (event) => {
  */
 self.__precacheManifest = [
   {
-    "url": "components/todo-add/todo-add.css",
+    "url": "js/components/todo-add/todo-add.css",
     "revision": "d41d8cd98f00b204e9800998ecf8427e"
   },
   {
-    "url": "components/todo-add/todo-add.js",
+    "url": "js/components/todo-add/todo-add.js",
     "revision": "c77fe7900e48003cb48a3050ebcf4a52"
   },
   {
-    "url": "components/todo-element/todo-element.css",
+    "url": "js/components/todo-element/todo-element.css",
     "revision": "d41d8cd98f00b204e9800998ecf8427e"
   },
   {
-    "url": "components/todo-element/todo-element.js",
+    "url": "js/components/todo-element/todo-element.js",
     "revision": "d41d8cd98f00b204e9800998ecf8427e"
   },
   {
