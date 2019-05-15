@@ -18,8 +18,19 @@ export default class TodoElement extends LitElement {
 
   firstUpdated() {
     let checkbox = this.shadowRoot.querySelector('#'+this.id);
+    let label = this.shadowRoot.querySelector('#label-'+this.id+'> span');
+    let input = this.shadowRoot.querySelector('#'+this.id);
+
+    if (this.done === true) {
+      label.classList.add('strikethrough');
+      input.checked = true;
+    } else {
+      label.classList.remove('strikethrough');
+      input.checked = false;
+    }
+
     checkbox.addEventListener('click', () => {
-      let label = this.shadowRoot.querySelector('#label-'+this.id+'> span');
+
       let labelClassList = label.classList;
       if (labelClassList.contains('strikethrough')) {
         labelClassList.remove('strikethrough');
@@ -39,10 +50,6 @@ export default class TodoElement extends LitElement {
     });
 
     document.dispatchEvent(event);
-  }
-
-  test() {
-
   }
 
   static get styles() {

@@ -67,21 +67,33 @@ import { openDB } from '/node_modules/idb/build/esm/index.js';
       addElementJsonServer(todo)
     });
 
-    document.addEventListener('update-done', async ({detail}) => {
-      let todoElements = await database.get('todoelements', 'todoelements');
-      todoElements[detail.id] = detail;
-      await database.put('todo', todoElements, 'todo').then(async () => {
-        await fetch(fetchUrl + detail.id, {
-          method: 'PUT',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(detail),
-        }).catch(err => {
-          console.log(err);
-        });
-      });
+    //
+    // document.addEventListener('update-done', async ({detail}) => {
+    //   let todoElements = await database.get('todoelements', 'todoelements');
+    //   todoElements[detail.id] = detail;
+    //   await database.put('todo', todoElements, 'todo').then(async () => {
+    //     await fetch(fetchUrl + detail.id, {
+    //       method: 'PUT',
+    //       headers: {
+    //         'Accept': 'application/json',
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(detail),
+    //     }).catch(err => {
+    //       console.log(err);
+    //     });
+    //   });
+    // });
+
+    // Checked todo event
+    document.addEventListener("update-done", ({ detail }) => {
+      const todo = json.filter(data => {
+        return data.id == detail.id;
+      })[0];
+        json[json.indexOf(todo)].done = detail.done;
+        database.put("todoelements", json, "todoelements");
+        removeElementJsonServer(todo.id);
+        addElementJsonServer(todo);
     });
 
   } catch(error){
@@ -92,6 +104,14 @@ import { openDB } from '/node_modules/idb/build/esm/index.js';
     return 'axxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
       let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
       return v.toString(16);
+    });
+  }
+
+  function removeElementJsonServer(id) {
+    fetch(fetchUrl+'/'+id, {
+      method: 'DELETE'
+    }).catch(err => {
+      console.log(err);
     });
   }
 
